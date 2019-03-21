@@ -1,0 +1,6 @@
+<RCC>
+  <qresource prefix="newPrefix">
+    <file>다운로드.jpg</file>
+    <file>Biological_Treatment.png</file>
+  </qresource>
+</RCC>
