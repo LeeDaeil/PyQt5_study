@@ -1,9 +1,9 @@
 from collections import deque
 from multiprocessing import Manager
-from Study_5.CNS_UDP import *
-from Study_5.CNS_Fun import *
+from Study_6.CNS_UDP import *
+from Study_6.CNS_Fun import *
 # from .CNS_GFun import * # 인터페이스 설계로 인한 제외
-from Study_5.CNS_CFun import *
+from Study_6.CNS_CFun import *
 
 
 class body:

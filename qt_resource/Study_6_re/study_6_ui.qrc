@@ -1,0 +1,10 @@
+<RCC>
+  <qresource prefix="Comp">
+    <file>Lab_log.png</file>
+    <file>System.png</file>
+    <file>pump_off.png</file>
+    <file>pump_on.png</file>
+    <file>Reactor.png</file>
+    <file>SG.png</file>
+  </qresource>
+</RCC>
