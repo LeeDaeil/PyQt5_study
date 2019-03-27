@@ -1,8 +1,9 @@
 import sys
-import os
-from PyQt5.QtWidgets import QDialog, QApplication, QMessageBox
-from PyQt5 import QtCore
+import pickle
+from PyQt5.QtWidgets import QDialog, QApplication
 from ui_data.gui_study_7 import Ui_Dialog
+
+# DB = {'gori':{}, 'new_gori':{}, 'han':{}}
 
 class MyForm(QDialog):
     def __init__(self):
@@ -11,32 +12,29 @@ class MyForm(QDialog):
         self.ui.setupUi(self)
         self.ui.cal.clicked.connect(self.cal_function)
         self.ui.lineEdit.returnPressed.connect(self.enter_function)
+
+        with open('DB.bin', 'rb') as f:
+            self.DB = pickle.load(f)
+
         self.show()
 
     def enter_function(self):
         self.ui.out_list.clear()
-        if self.ui.lineEdit_2.text() == '':
-            QMessageBox.about(self, 'Path 오류', '경로가 입력되지 않았습니다.')
-        else:
-            file_list = os.listdir(self.ui.lineEdit_2.text())
-            if self.ui.lineEdit.text() == 'ls':
-                QMessageBox.about(self, '파일탐색', '경로내 파일을 보여줍니다.')
-                for _ in file_list:
+        if self.ui.gori.isChecked() == True:
+            print(len(self.DB['gori']))
+            for _ in self.DB['gori']:
+                if self.DB['gori'][_].find(self.ui.lineEdit.text()) != -1:
                     self.ui.out_list.append(_)
-            else:
-                file_list_tx = [file for file in file_list if file.endswith(".txt")]
-                if file_list_tx == []:
-                    QMessageBox.about(self, 'Txt 탐색 불가', '경로에 txt파일이 없습니다.')
-                else:
-                    self.DB = {}
-                    for _ in file_list_tx:
-                        with open('{}'.format(self.ui.lineEdit_2.text() + _), encoding='utf-8') as f:
-                            self.DB[_] = f.read()
-
-                    for _ in self.DB.keys():
-                        print(self.DB[_].find(self.ui.lineEdit.text()))
-                        if self.DB[_].find(self.ui.lineEdit.text()) != -1:
-                            self.ui.out_list.append(_)
+        if self.ui.han.isChecked() == True:
+            print(len(self.DB['han']))
+            for _ in self.DB['han']:
+                if self.DB['han'][_].find(self.ui.lineEdit.text()) != -1:
+                    self.ui.out_list.append(_)
+        if self.ui.new_gori.isChecked() == True:
+            print(len(self.DB['new_gori']))
+            for _ in self.DB['new_gori']:
+                if self.DB['new_gori'][_].find(self.ui.lineEdit.text()) != -1:
+                    self.ui.out_list.append(_)
 
     def cal_function(self):
         self.ui.out_pro.clear()
