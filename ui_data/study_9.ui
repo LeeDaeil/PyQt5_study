@@ -8360,6 +8360,35 @@ color: rgb(255, 255, 255);</string>
     <set>Qt::AlignCenter</set>
    </property>
   </widget>
+  <widget class="QWidget" name="horizontalLayoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>1180</x>
+     <y>10</y>
+     <width>401</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <layout class="QHBoxLayout" name="horizontalLayout">
+    <item>
+     <widget class="QLabel" name="label_17">
+      <property name="font">
+       <font>
+        <family>Gadugi</family>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(255, 255, 255);</string>
+      </property>
+      <property name="text">
+       <string>CNS TIME :</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
   <zorder>Back_5</zorder>
   <zorder>Back_02</zorder>
   <zorder>Back_01</zorder>
@@ -8547,6 +8576,7 @@ color: rgb(255, 255, 255);</string>
   <zorder>D_51</zorder>
   <zorder>D_52</zorder>
   <zorder>D_53</zorder>
+  <zorder>horizontalLayoutWidget</zorder>
  </widget>
  <resources>
   <include location="../qt_resource/Study_9_re/Study_9_re.qrc"/>
