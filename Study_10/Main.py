@@ -19,6 +19,7 @@ class body:
             self.process_list = [
                 clean_mem(self.shared_mem, shut_up=self.shut_up),
                 interface_function(self.shared_mem),
+                Autonomous_system(self.shared_mem),
 
                 # function1(self.shared_mem),
                 # function2(self.shared_mem),
@@ -46,6 +47,13 @@ class body:
             job.join()
 
 class generate_mem:
+    def make_autonomous_mem(self):
+        memory_dict = {'Man_state': False, 'Auto_state': True, 'Man_require': False,
+                       'Current_op': 'LSTM-based algorithm', #'['LSTM-based algorithm', 'Tech Spec action', 'Ruel-based algorithm'],
+                       'Strategy_out': [],
+                       'Auto_operation_out': []}
+        return memory_dict
+
     def make_test_mem(self):
         memory_dict = {'Test': 0, 'List_Test': []}
         return memory_dict
@@ -81,6 +89,7 @@ class generate_mem:
         memory_list = [Manager().dict(self.make_main_mem_structure(max_len_deque=10)),  # [0]
                        Manager().dict(self.make_test_mem()),
                        Manager().list(self.make_test_list_mem()),
+                       Manager().dict(self.make_autonomous_mem()),                      # [-3]
                        Manager().list(self.make_CNS_time_mem()),                        # [-2]
                        Manager().dict(self.make_clean_mem()),                           # [-1]
                        ]

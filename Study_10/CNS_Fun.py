@@ -40,9 +40,7 @@ class function3(multiprocessing.Process):
             self.mem[2].append(2)
             time.sleep(3)
 
-
 # ========================================================================
-
 
 class t_function1(multiprocessing.Process):
     def __init__(self, mem):
@@ -54,6 +52,33 @@ class t_function1(multiprocessing.Process):
         while True:
             print(self, self.mem['KCNTOMS']['V'])
             time.sleep(1)
+
+# ========================================================================
+# Autonomous system part
+# ========================================================================
+
+class Autonomous_system(multiprocessing.Process):
+    def __init__(self, mem):
+        multiprocessing.Process.__init__(self)
+        self.mem = mem
+        self.Auto_mem = mem[-3]
+        self.cont = 0
+
+    def run(self):
+        # memory_dict = {'Man_state': False, 'Auto_state': True, 'Man_require': False,
+        #                'Current_op': '',  # '['LSTM-based algorithm', 'Tech Spec action', 'Ruel-based algorithm'],
+        #                'Strategy_out': [],
+        #                'Auto_operation_out': []}
+
+        while True:
+            print(self, self.Auto_mem)
+            # print(self, self.mem[1]['Test'], '->', 2, self.mem2)
+            # self.mem[1]['Test'] = 2
+            # self.mem[2].append(2)
+
+
+            time.sleep(1)
+
 
 
 # ========================================================================
@@ -77,7 +102,8 @@ class MyForm(QDialog):
         self.ui = Ui_Dialog()
         self.ui.setupUi(self)
 
-        self.mem = mem
+        self.mem = mem[0]
+        self.Auto_mem = mem[-3]
 
         self.color_setting()
 
@@ -94,7 +120,8 @@ class MyForm(QDialog):
             self.Alarm_upcont = 0
 
         # x msec마다 업데이트
-        update_module = [self.update_comp, self.update_CSF, self.update_display, self.update_alarm]
+        update_module = [self.update_comp, self.update_CSF, self.update_display, self.update_alarm, self.update_timmer,
+                         self.Autonomous_operation_strategy]
         timer = QtCore.QTimer(self)
         for _ in update_module:
             timer.timeout.connect(_)
@@ -158,7 +185,33 @@ class MyForm(QDialog):
         self.ui.D_24.setText('{:0.2f}'.format(self.mem['ZCNDTK']['V']))  # CST1_LEVEL
         self.ui.D_25.setText('{:0.2f}'.format(self.mem['ZAFWTK']['V']))  # CST2_LEVEL
 
+        self.ui.D_power.setText('{:0.2f} [%]'.format(self.mem['QPROREL']['V']*100))  # POWER
+        self.ui.D_elec.setText('{:0.2f} [MWe]'.format(self.mem['ZINST124']['V']))  # POWER
         pass
+
+    def update_timmer(self):
+        Time_val = self.mem['KCNTOMS']['V'] // 5
+        t_sec = Time_val % 60   # x sec
+        t_min = Time_val // 60  # x min
+        t_hour = t_min // 60
+        t_min = t_min % 60
+
+        if t_min >= 10:
+            t_min = '{}'.format(t_min)
+        else:
+            t_min = '0{}'.format(t_min)
+
+        if t_sec >= 10:
+            t_sec = '{}'.format(t_sec)
+        else:
+            t_sec = '0{}'.format(t_sec)
+
+        if t_hour >= 10:
+            t_hour = '{}'.format(t_hour)
+        else:
+            t_hour = '0{}'.format(t_hour)
+
+        self.ui.CNS_Time.setText('CNS TIME : {}:{}:{}'.format(t_hour, t_min, t_sec))
 
     # ======================= Alarm ======================================
 
@@ -201,6 +254,16 @@ class MyForm(QDialog):
                 for _ in ui[self.Alarm_upcont:self.Alarm_upcont+12]:
                     self.Alarm_initial(_, True)
             self.Alarm_upcont += 12
+
+            # Autonomous control part
+            self.ui.pushButton.setStyleSheet(self.back_color['gray'])
+            self.ui.pushButton_2.setStyleSheet(self.back_color['gray'])
+            self.ui.pushButton_3.setStyleSheet(self.back_color['gray'])
+            self.ui.pushButton_4.setStyleSheet(self.back_color['gray'])
+            self.ui.pushButton_5.setStyleSheet(self.back_color['gray'])
+            self.ui.pushButton_6.setStyleSheet(self.back_color['gray'])
+            self.ui.pushButton_7.setStyleSheet(self.back_color['gray'])
+
         else:
             if True:
                 self.Alarm_dis(self.ui.A_01, 'KLAMPO251')
@@ -307,10 +370,13 @@ class MyForm(QDialog):
                 self.Alarm_dis(self.ui.A_82, 'KLAMPO340')
                 self.Alarm_dis(self.ui.A_83, 'KLAMPO341')
 
+                # Autonomous state alram
+                self.Auto_Alarm_dis()
             pass
         pass
 
     def Alarm_initial(self, ui, on_off):
+
         if on_off:
             ui.setStyleSheet(self.back_color['red'])
         else:
@@ -325,6 +391,35 @@ class MyForm(QDialog):
         else:
             ui.setStyleSheet(self.back_color['gray'])
         pass
+
+    def Auto_Alarm_dis(self):
+
+        if self.Auto_mem['Auto_state']:     # True
+            self.ui.pushButton_2.setStyleSheet(self.back_color['gray']) # man dis
+            self.ui.pushButton_4.setStyleSheet(self.back_color['gray']) # man on botton
+            self.ui.pushButton_5.setStyleSheet(self.back_color['green'])  # man off botton
+
+            self.ui.pushButton.setStyleSheet(self.back_color['red'])    #auto_dis
+            self.ui.pushButton_6.setStyleSheet(self.back_color['red'])  #auto_on
+            self.ui.pushButton_7.setStyleSheet(self.back_color['gray']) #auto_off
+
+        elif self.Auto_mem['Man_state']:     # True
+            self.ui.pushButton_2.setStyleSheet(self.back_color['red'])  # man dis
+            self.ui.pushButton_4.setStyleSheet(self.back_color['red'])  # man on botton
+            self.ui.pushButton_5.setStyleSheet(self.back_color['gray'])  # man off botton
+
+            self.ui.pushButton.setStyleSheet(self.back_color['gray'])  # auto_dis
+            self.ui.pushButton_6.setStyleSheet(self.back_color['gray'])  # auto_on
+            self.ui.pushButton_7.setStyleSheet(self.back_color['green'])  # auto_off
+        else:
+            pass
+        if self.Auto_mem['Man_require']:     # True
+            if self.ui.pushButton_3.styleSheet() == self.back_color['red']:
+                self.ui.pushButton_3.setStyleSheet(self.back_color['gray'])
+            else:
+                self.ui.pushButton_3.setStyleSheet(self.back_color['red'])
+        else:
+            self.ui.pushButton_3.setStyleSheet(self.back_color['gray'])
 
     # ======================= Comp ======================================
 
@@ -529,12 +624,15 @@ class MyForm(QDialog):
 
         else:
             # logic hear!!
-            self.CSF_switch('Coreheat', self.CSF_CORE_HEAT())
-            self.CSF_switch('RCSheat', self.CSF_RCS_Heat())
-            self.CSF_switch('CTMTp_t', self.CSF_CTMT())
-            self.CSF_switch('React', self.CSF_REA())
-            self.CSF_switch('RCS_Inven', self.CSF_RCS_Inven())
-            self.CSF_switch('RCSpressure', self.CSF_RCS_integrate())
+            try:
+                self.CSF_switch('Coreheat', self.CSF_CORE_HEAT())
+                self.CSF_switch('RCSheat', self.CSF_RCS_Heat())
+                self.CSF_switch('CTMTp_t', self.CSF_CTMT())
+                self.CSF_switch('React', self.CSF_REA())
+                self.CSF_switch('RCS_Inven', self.CSF_RCS_Inven())
+                self.CSF_switch('RCSpressure', self.CSF_RCS_integrate())
+            except:
+                print('err')
 
     def CSF_switch(self, safety_function, level):
 
@@ -1017,10 +1115,27 @@ class MyForm(QDialog):
         else:
             return 0
 
+    # ======================= Autonomous DIS==============================
+
+    def Autonomous_controller(self):
+        pass
+
+    def Autonomous_operation_strategy(self):
+        self.ui.Current_op.setText('{}'.format(self.Auto_mem['Current_op']))
+
+        # self.ui.Strategy_out.clear()
+        # for _ in self.Auto_mem['Strategy_out']:
+        #     self.ui.Strategy_out.append(_)
+        #
+        # self.ui.Control_out.clear()
+        # for _ in self.Auto_mem['Auto_operation_out']:
+        #     self.ui.Control_out.append(_)
+
+
 class interface_function(multiprocessing.Process):
     def __init__(self, mem):
         multiprocessing.Process.__init__(self)
-        self.mem = mem[0]
+        self.mem = mem
 
     def run(self):
         app = QApplication(sys.argv)
