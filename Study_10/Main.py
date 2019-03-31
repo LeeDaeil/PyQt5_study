@@ -50,8 +50,23 @@ class generate_mem:
     def make_autonomous_mem(self):
         memory_dict = {'Man_state': False, 'Auto_state': True, 'Man_require': False,
                        'Current_op': 'LSTM-based algorithm', #'['LSTM-based algorithm', 'Tech Spec action', 'Ruel-based algorithm'],
-                       'Strategy_out': [],
-                       'Auto_operation_out': []}
+                       'Strategy_out': ['[00:00:00] Start - Normal Operation - LSTM-base algorithm',
+                                        '[00:00:46] Emergency Operation - LSTM-base algorithm'],
+                       'Auto_operation_out': ['[00:00:00] Start',
+                                              '[00:00:46] Reactor Trip',
+                                              '[00:00:57] SI Valve Open',
+                                              '[00:00:58] Charging Pump 1 Start',
+                                              '[00:00:58] Aux Feed Water Pump 1 Start',
+                                              '[00:00:58] Aux Feed Water Pump 3 Start',
+                                              '[00:00:59] Aux Feed Water Control Valve (HV313) Open',
+                                              '[00:00:59] Aux Feed Water Control Valve (HV315) Open',
+                                              '[00:01:25] Aux Feed Water Pump 2 Start',
+                                              '[00:01:27] Aux Feed Water Control Valve (HV314) Open',
+                                              '[00:02:06] MSIV Close (HV108, HV208, HV308',
+                                              '[00:04:36] RCP 1 Stop',
+                                              '[00:04:36] RCP 2 Stop',
+                                              '[00:04:36] RCP 3 Stop',
+                                              ]}
         return memory_dict
 
     def make_test_mem(self):

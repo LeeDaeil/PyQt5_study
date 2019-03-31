@@ -548,52 +548,52 @@ class MyForm(QDialog):
                 if self.mem['KLAMPO134']['V'] == 1:
                     if self.mem[para]['V'] == 25:
                         ui_pump.setStyleSheet(self.back_img['V_2_OPEN'])
-                        self.ui.V_20.setStyleSheet(self.back_img['V_2_OPEN'])
-                        self.ui.V_21.setStyleSheet(self.back_img['V_2_OPEN'])
+                        self.ui.V_20.setStyleSheet(self.back_img['V_1_OPEN'])
+                        self.ui.V_21.setStyleSheet(self.back_img['V_1_OPEN'])
                     elif self.mem[para]['V'] == 0:
                         ui_pump.setStyleSheet(self.back_img['V_2_CLOSE'])
-                        self.ui.V_20.setStyleSheet(self.back_img['V_2_OPEN'])
-                        self.ui.V_21.setStyleSheet(self.back_img['V_2_OPEN'])
+                        self.ui.V_20.setStyleSheet(self.back_img['V_1_OPEN'])
+                        self.ui.V_21.setStyleSheet(self.back_img['V_1_OPEN'])
                     else:
                         ui_pump.setStyleSheet(self.back_img['V_2_HALF'])
-                        self.ui.V_20.setStyleSheet(self.back_img['V_2_OPEN'])
-                        self.ui.V_21.setStyleSheet(self.back_img['V_2_OPEN'])
+                        self.ui.V_20.setStyleSheet(self.back_img['V_1_OPEN'])
+                        self.ui.V_21.setStyleSheet(self.back_img['V_1_OPEN'])
                 else:
                     ui_pump.setStyleSheet(self.back_img['V_2_CLOSE'])
-                    self.ui.V_20.setStyleSheet(self.back_img['V_2_CLOSE'])
-                    self.ui.V_21.setStyleSheet(self.back_img['V_2_CLOSE'])
+                    self.ui.V_20.setStyleSheet(self.back_img['V_1_CLOSE'])
+                    self.ui.V_21.setStyleSheet(self.back_img['V_1_CLOSE'])
             elif para == 'WAFWS2':
                 if self.mem['KLAMPO135']['V'] == 1:
                     if self.mem[para]['V'] == 25:
                         ui_pump.setStyleSheet(self.back_img['V_2_OPEN'])
-                        self.ui.V_20.setStyleSheet(self.back_img['V_2_OPEN'])
-                        self.ui.V_21.setStyleSheet(self.back_img['V_2_OPEN'])
+                        self.ui.V_20.setStyleSheet(self.back_img['V_1_OPEN'])
+                        self.ui.V_21.setStyleSheet(self.back_img['V_1_OPEN'])
                     elif self.mem[para]['V'] == 0:
                         ui_pump.setStyleSheet(self.back_img['V_2_CLOSE'])
-                        self.ui.V_20.setStyleSheet(self.back_img['V_2_OPEN'])
-                        self.ui.V_21.setStyleSheet(self.back_img['V_2_OPEN'])
+                        self.ui.V_20.setStyleSheet(self.back_img['V_1_OPEN'])
+                        self.ui.V_21.setStyleSheet(self.back_img['V_1_OPEN'])
                     else:
                         ui_pump.setStyleSheet(self.back_img['V_2_HALF'])
-                        self.ui.V_20.setStyleSheet(self.back_img['V_2_OPEN'])
-                        self.ui.V_21.setStyleSheet(self.back_img['V_2_OPEN'])
+                        self.ui.V_20.setStyleSheet(self.back_img['V_1_OPEN'])
+                        self.ui.V_21.setStyleSheet(self.back_img['V_1_OPEN'])
                 else:
                     ui_pump.setStyleSheet(self.back_img['V_2_CLOSE'])
-                    self.ui.V_20.setStyleSheet(self.back_img['V_2_CLOSE'])
-                    self.ui.V_21.setStyleSheet(self.back_img['V_2_CLOSE'])
+                    self.ui.V_20.setStyleSheet(self.back_img['V_1_CLOSE'])
+                    self.ui.V_21.setStyleSheet(self.back_img['V_1_CLOSE'])
             elif para == 'WAFWS3':
                 if self.mem['KLAMPO136']['V'] == 1:
                     if self.mem[para]['V'] == 25:
                         ui_pump.setStyleSheet(self.back_img['V_2_OPEN'])
-                        self.ui.V_20.setStyleSheet(self.back_img['V_2_OPEN'])
-                        self.ui.V_21.setStyleSheet(self.back_img['V_2_OPEN'])
+                        self.ui.V_20.setStyleSheet(self.back_img['V_1_OPEN'])
+                        self.ui.V_21.setStyleSheet(self.back_img['V_1_OPEN'])
                     elif self.mem[para]['V'] == 0:
                         ui_pump.setStyleSheet(self.back_img['V_2_CLOSE'])
-                        self.ui.V_20.setStyleSheet(self.back_img['V_2_OPEN'])
-                        self.ui.V_21.setStyleSheet(self.back_img['V_2_OPEN'])
+                        self.ui.V_20.setStyleSheet(self.back_img['V_1_OPEN'])
+                        self.ui.V_21.setStyleSheet(self.back_img['V_1_OPEN'])
                     else:
                         ui_pump.setStyleSheet(self.back_img['V_2_HALF'])
-                        self.ui.V_20.setStyleSheet(self.back_img['V_2_OPEN'])
-                        self.ui.V_21.setStyleSheet(self.back_img['V_2_OPEN'])
+                        self.ui.V_20.setStyleSheet(self.back_img['V_1_OPEN'])
+                        self.ui.V_21.setStyleSheet(self.back_img['V_1_OPEN'])
                 else:
                     ui_pump.setStyleSheet(self.back_img['V_2_CLOSE'])
                     self.ui.V_20.setStyleSheet(self.back_img['V_2_CLOSE'])
@@ -1123,13 +1123,13 @@ class MyForm(QDialog):
     def Autonomous_operation_strategy(self):
         self.ui.Current_op.setText('{}'.format(self.Auto_mem['Current_op']))
 
-        # self.ui.Strategy_out.clear()
-        # for _ in self.Auto_mem['Strategy_out']:
-        #     self.ui.Strategy_out.append(_)
-        #
-        # self.ui.Control_out.clear()
-        # for _ in self.Auto_mem['Auto_operation_out']:
-        #     self.ui.Control_out.append(_)
+        self.ui.Strategy_out.clear()
+        for _ in self.Auto_mem['Strategy_out']:
+            self.ui.Strategy_out.append(_)
+
+        self.ui.Control_out.clear()
+        for _ in self.Auto_mem['Auto_operation_out']:
+            self.ui.Control_out.append(_)
 
 
 class interface_function(multiprocessing.Process):
