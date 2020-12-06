@@ -2,8 +2,8 @@ import sys
 from PySide2.QtWidgets import (QLineEdit, QPushButton, QApplication,
     QVBoxLayout, QDialog)
 
-class Form(QDialog):
 
+class Form(QDialog):
     def __init__(self, parent=None):
         super(Form, self).__init__(parent)
         # Create widgets
@@ -20,7 +20,8 @@ class Form(QDialog):
 
     # Greets the user
     def greetings(self):
-        print ("Hello %s" % self.edit.text())
+        print("Hello %s" % self.edit.text())
+
 
 if __name__ == '__main__':
     # Create the Qt Application
